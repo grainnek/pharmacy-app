@@ -1,0 +1,208 @@
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<body>
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>Gráinne's Pharmacy</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+    
+    
+    
+		<h2>Welcome!</h2>
+
+		<p>Welcome to Gráinne's Pharmacy!</p>
+
+		<p>Services Offered:</p>
+		<ul>
+		    <li>Online Prescription Ordering.</li>
+		</ul>
+
+		<h3>Please select an option:</h3>
+		<p><a href="#login" class="ui-btn ui-shadow ui-corner-all">Login</a></p>
+		<p><a href="#register" class="ui-btn ui-shadow ui-corner-all">Register</a></p>
+		
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="a">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="login" data-theme="a">
+
+	<div data-role="header">
+		<h1>Login</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+	<!-- Username -->
+	<label for="user">Username:</label>
+	<input type="text" name="user" id="uname" value="">
+	<!-- Password -->
+	<label for="password">Password:</label>
+	<input type="text" name="password" id="pword" value="">
+	<!-- Login -->
+	<button id="loginbutton">Login</button>
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+<script>
+$( "#loginbutton" ).click(function() {
+
+	var uname = $( "#uname" ).val();
+	var pword = $( "#pword" ).val();
+	
+	
+	$.post( "/login", { username:uname, password:pword})
+	.done(function( data ) {
+	alert(data);
+	window.location="/landing";
+	});
+	});
+		
+</script>
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="register" data-theme="a">
+
+	<div data-role="header">
+		<h1>Register</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+	<h2>Please enter your details:</h2>
+	
+	<!--first name -->
+	<label for="fname">First Name:</label>
+	<input type="text" name="fname" id="fname" value="">
+	<!--last name -->
+	<label for="lname">Last Name:</label>
+	<input type="text" name="lname" id="lname" value="">
+	<!-- sex -->
+	<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+    <legend>Sex:</legend>
+        <input type="radio" name="sex" id="male" value="Male">
+        <label for="male">Male</label>
+        <input type="radio" name="sex" id="female" value="Female">
+        <label for="female">Female</label>     
+	</fieldset>
+	<!-- DOB -->
+	<label for="dob">Date of Birth:</label>
+	<input type="date" name="dob" id="dob" value="">
+	<!-- address -->
+	<label for="address1">Address1:</label>
+	<input type="text" name="address1" id="address1" value="">
+	<label for="address2">Address2:</label>
+	<input type="text" name="address2" id="address2" value="">
+	<label for="town">Town:</label>
+	<input type="text" name="town" id="town" value="">
+	<label for="county">County:</label>
+	<input type="text" name="county" id="county" value="">
+	<label for="nationality">Nationality:</label>
+	<input type="text" name="nationality" id="nationality" value="">
+	<!-- Doctor -->
+	<label for="doctor">Doctor:</label>
+	<input type="text" name="doctor" id="doctor" value="">
+	<!-- Scheme -->
+	<div class="schemetype">
+    <label for="scheme">Medical Scheme:</label>
+    <select name="scheme" id="scheme">
+        <option value="GMS">GMS</option>
+        <option value="DPS">DPS</option>
+        <option value="LTI">LTI</option>
+		<option value="PRIVATE">Private</option>
+    </select>
+	</div>
+	<!-- Scheme ID -->
+	<label for="schemeid">Scheme ID:</label>
+	<input type="text" name="schemeid" id="schemeid" value="">
+	<!-- Allergies -->
+	<label for="allergies">Allergies:</label>
+	<input type="text" name="allergies" id="allergies" value="">
+	
+	<!-- Email -->
+	<label for="email">Email Address:</label>
+	<input type="text" name="email" id="email" value="">
+	<!-- Phone -->
+	<label for="phone">Phone Number:</label>
+	<input type="text" name="phone" id="phone" value="">
+	<!-- Username -->
+	<label for="user">Username:</label>
+	<input type="text" name="user" id="user" value="">
+	<!-- Password -->
+	<label for="password">Password:</label>
+	<input type="text" name="password" id="password" value="">
+	<!-- Register -->
+	<button id="registerbutton">Register</button>
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+<script>
+$( "#registerbutton" ).click(function() {
+
+	var fname = $( "#fname" ).val();
+	var lname = $( "#lname" ).val();
+	var sex = $( "input[name=sex]:checked" ).val();
+	var dob = $( "#dob" ) .val();
+	var address1 = $( "#address1" ) .val();
+	var address2 = $( "#address2" ) .val();
+	var town = $( "#town" ) .val();
+	var county = $( "#county" ) .val();
+	var nationality = $( "#nationality" ) .val();
+	var doctor = $( "#doctor" ) .val();
+	var scheme = $( "#scheme" ) .val();
+	var schemeid = $( "#schemeid" ) .val();
+	var allergies = $( "#allergies" ) .val();
+	var email = $( "#email" ) .val();
+	var phone = $( "#phone" ) .val();
+	var user = $( "#user" ) .val();
+	var password = $( "#password" ) .val();
+	
+	console.log(fname);
+	console.log(lname);
+	console.log(sex);
+	console.log(dob);
+	console.log(address1);
+	console.log(address2);
+	console.log(town);
+	console.log(county);
+	console.log(nationality);
+	console.log(doctor);
+	console.log(scheme);
+	console.log(schemeid);
+	console.log(allergies);
+	console.log(email);
+	console.log(phone);
+	console.log(user);
+	console.log(password);
+	
+	$.post ( "/register", { fname:fname, lname:lname, sex:sex, dob:dob, address1:address1, address2:address2, town:town, county:county, doctor:doctor, nationality:nationality, scheme:scheme, schemeid:schemeid, allergies:allergies, email:email, phone:phone, user:user, password:password})
+	.done (function( data ) {
+		alert(data );
+		window.location="#one";
+	});
+	
+	
+	
+	
+	});
+		
+</script>
+
+
+</body>
+</html>
