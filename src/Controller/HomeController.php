@@ -25,11 +25,19 @@ class HomeController extends AbstractController
 	
 	
 	/**
-	* @Route("/landing", name="landing")
+	* @Route("/base", name="base")
 	*/
-	public function landing()
+	public function base()
 	{
-		return $this->render('landing.html.twig');
+		return $this->render('patient_base.html.twig');
+	}
+	
+		/**
+	* @Route("/staffbase", name="staffbase")
+	*/
+	public function staffbase()
+	{
+		return $this->render('staff_base.html.twig');
 	}
 
 }

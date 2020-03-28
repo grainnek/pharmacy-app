@@ -4,18 +4,34 @@
 <head>
     <meta charset="utf-8">
 	<title>Home </title>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body> 
     <h1>Pharmacy Page</h1>
 	
-	<form action="login" method="post">
-	<p>Username</p><br>
-	<input type="text" name="username"><br>
-	<p>Password</p><br>
-	<input type="password" name="password"><br>
-	<input type="submit">
-	</form>
+	<label for="user">Username:</label>
+	<input type="text" name="user" id="uname" value="">
+	<!-- Password -->
+	<label for="password">Password:</label>
+	<input type="text" name="password" id="pword" value="">
+	<!-- Login -->
+	<button id="loginbutton">Login</button>
+
+<script>	
+$( "#loginbutton" ).click(function() {
+
+	var uname = $( "#uname" ).val();
+	var pword = $( "#pword" ).val();
 	
+	
+	$.post( "/login", { role:"staff", username:uname, password:pword})
+	.done(function( data ) {
+	alert(data);
+	window.location="/staffbase";
+	});
+	});		
+</script>
+
 </body>
 </html>

@@ -66,10 +66,10 @@ $( "#loginbutton" ).click(function() {
 	var pword = $( "#pword" ).val();
 	
 	
-	$.post( "/login", { username:uname, password:pword})
+	$.post( "/login", { role:"customer", username:uname, password:pword})
 	.done(function( data ) {
 	alert(data);
-	window.location="/landing";
+	window.location="/base";
 	});
 	});
 		
