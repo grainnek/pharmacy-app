@@ -1,13 +1,42 @@
-
+<head>
+<title>Gráinne's Pharmacy</title>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" type="text/css" href="css/patient.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+</head>
 <body>
 
 <!-- Start of first page: #one -->
 <div data-role="page" id="one">
-
+<div data-role="panel" id="storedetails">
+    
+	
+	<div class="container">	
+	<div class="left">
+	<h3> Opening Hours:</h3>
+	<p>Monday: 09:30 - 18:00</p>
+	<p>Tuesday: 09:30 - 18:00</p>
+	<p>Wednesday: 09:30 - 18:00</p>
+	<p>Thursday: 09:30 - 18:00</p>
+	<p>Friday: 09:30 - 18:00</p>
+	<p>Saturday: 09:30 - 18:00</p>
+	<p>Sunday: Closed</p>
+	<h3>Contact:</h3>
+	<p>Phone: 0000000</p>
+	<p>Email: grainnespharmacy@.ie</p>
+	</div>
+	<div class="right">
+	<p>Church Road Shopping Centre</p>
+	<p>Tullamore</p>
+	<p>Co. Offaly</p>
+	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2878.6041506583124!2d-7.48707881775817!3d53.27333755606778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485da590178b4365%3A0x5aa834e3a150455d!2sO&#39;Donovan&#39;s%20CarePlus%20Pharmacy!5e0!3m2!1sen!2sie!4v1586775589965!5m2!1sen!2sie" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+	
+	
+	</div>
+	</div>
+	
+</div><!-- /panel -->
 	<div data-role="header">
 		<h1>Gráinne's Pharmacy</h1>
 	</div><!-- /header -->
@@ -26,17 +55,18 @@
 		</ul>
 
 		<h3>Please select an option:</h3>
+		<p><a href="#storedetails" class="ui-btn ui-shadow ui-corner-all">Store Details</a></p>
 		<p><a href="#login" class="ui-btn ui-shadow ui-corner-all">Login</a></p>
 		<p><a href="#register" class="ui-btn ui-shadow ui-corner-all">Register</a></p>
 		
 	</div><!-- /content -->
 
 	<div data-role="footer" data-theme="a">
-		<h4>Page Footer</h4>
+		<a href="pharmacy">Staff Login</a>
 	</div><!-- /footer -->
 </div><!-- /page one -->
 
-<!-- Start of second page: #two -->
+<!-- Start of second page: #login -->
 <div data-role="page" id="login" data-theme="a">
 
 	<div data-role="header">
@@ -49,7 +79,7 @@
 	<input type="text" name="user" id="uname" value="">
 	<!-- Password -->
 	<label for="password">Password:</label>
-	<input type="text" name="password" id="pword" value="">
+	<input type="password" name="password" id="pword" value="">
 	<!-- Login -->
 	<button id="loginbutton">Login</button>
 	</div><!-- /content -->
@@ -60,22 +90,28 @@
 </div><!-- /page two -->
 
 <script>
+//when login button is clicked 
 $( "#loginbutton" ).click(function() {
-
+	//variables assigned based on input values
 	var uname = $( "#uname" ).val();
 	var pword = $( "#pword" ).val();
 	
-	
+	//post variables to the login php route
 	$.post( "/login", { role:"customer", username:uname, password:pword})
-	.done(function( data ) {
-	alert(data);
-	window.location="/base";
+	.done(function( data ) {	
+	if(data=="fail") {
+	    alert("Sorry, incorrect username or password. Try again.");
+		}
+	else {
+		alert(data);
+	window.location="/menu";
+	}
 	});
 	});
 		
 </script>
 
-<!-- Start of second page: #two -->
+<!-- Start of second page: #register -->
 <div data-role="page" id="register" data-theme="a">
 
 	<div data-role="header">
@@ -144,13 +180,11 @@ $( "#loginbutton" ).click(function() {
 	<input type="text" name="user" id="user" value="">
 	<!-- Password -->
 	<label for="password">Password:</label>
-	<input type="text" name="password" id="password" value="">
+	<input type="password" name="password" id="password" value="">
 	<!-- Register -->
 	<button id="registerbutton">Register</button>
-
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
+</div>
+</div>
 <script>
 $( "#registerbutton" ).click(function() {
 
@@ -194,14 +228,11 @@ $( "#registerbutton" ).click(function() {
 	.done (function( data ) {
 		alert(data );
 		window.location="#one";
-	});
-	
-	
-	
-	
+	});	
 	});
 		
 </script>
+
 
 
 </body>

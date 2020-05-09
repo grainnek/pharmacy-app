@@ -1,0 +1,27 @@
+th, td {
+  padding: 15px;
+  text-align: center;
+}
+
+th, td {
+  border-bottom: 1px solid black;
+}
+
+.container {
+  display: flex; 
+}
+
+.right {
+	flex: 1;
+	padding: 1em;
+	border-left: 1px solid black;
+}
+
+.left {
+	flex: 1;
+	padding: 1em;
+}
+
+h1, h2, h3 {
+	text-align: center;
+}

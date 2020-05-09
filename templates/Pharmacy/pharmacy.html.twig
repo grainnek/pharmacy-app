@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html>
-
 <head>
-    <meta charset="utf-8">
-	<title>Home </title>
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<title>Staff Login</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" type="text/css" href="css/staff.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 </head>
 
+
 <body> 
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+<div role="main" class="ui-content">
     <h1>Pharmacy Page</h1>
 	
 	<label for="user">Username:</label>
@@ -17,7 +20,8 @@
 	<input type="text" name="password" id="pword" value="">
 	<!-- Login -->
 	<button id="loginbutton">Login</button>
-
+</div>
+</div>
 <script>	
 $( "#loginbutton" ).click(function() {
 
@@ -28,10 +32,10 @@ $( "#loginbutton" ).click(function() {
 	$.post( "/login", { role:"staff", username:uname, password:pword})
 	.done(function( data ) {
 	alert(data);
-	window.location="/staffbase";
+	window.location="/staffzone";
 	});
 	});		
 </script>
 
 </body>
-</html>
+

@@ -35,9 +35,13 @@ class RegisterController extends AbstractController
 		$user = $request->request->get('user', 'none');
 		$password = $request->request->get('password', 'none');
 		
+		//preparing database manager
 		$entityManager = $this->getDoctrine()->getManager();
 		
+		//create a new row in patient details
 		$patient = new PatientDetails();
+		
+		//assign values to db columns
 		$patient->setFname($fname);
 		$patient->setLname($lname);
 		$patient->setSex($sex);
@@ -56,8 +60,10 @@ class RegisterController extends AbstractController
 		$patient->setUsername($user);
 		$patient->setPassword($password);
 		
+		//finalise patient entries
 		$entityManager->persist($patient);
 		
+		//commiting to the db
 		$entityManager->flush();
 		
         return new Response("Thank you for registering " . $fname);

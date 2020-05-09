@@ -1,0 +1,56 @@
+
+<head>
+<title>Staff Zone</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" type="text/css" href="css/staff.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+</head>
+
+<body> 
+ <div data-role="page" id="one">   
+ <div role="main" class="ui-content">
+	<h1>Gráinne's Pharmacy - Staff Base</h1>    
+    
+	<button id="pending">Pending Prescriptions</button>
+	<button id="progress">Prescriptions in Progress</button>
+	<button id="collection">Prescriptions Ready for Collection</button>
+	<button id="history">Patient History</button>
+	<button id="all">All Prescriptions</button>
+
+</div>		
+</div>
+<script>
+$( "#pending" ).click(function() {
+	window.location="/pending";
+});
+
+$( "#progress" ).click(function() {
+	window.location="/inprogress";
+});
+	
+$( "#collection" ).click(function() {
+	window.location="/ready";	
+	
+});
+
+$( "#all" ).click(function() {
+	window.location="/all";	
+	
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

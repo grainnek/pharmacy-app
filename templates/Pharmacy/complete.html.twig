@@ -1,0 +1,60 @@
+
+<head>
+    <meta charset="utf-8">
+	<title>Prescriptions Ready For Collection </title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/staff.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+</head>
+
+<body> 
+
+<h1>Ready For Collection</h1>
+	
+	<table class="center" data-mode="reflow" class="ui-responsive">
+     <thead>
+       <tr>
+         <th>Reference Number</th>
+         <th>Patient ID</th>
+         <th>Prescription</th>
+         <th>Status</th>   
+		 <th>Submitted on:</th> 
+		 <th>Completed on:</th> 
+		 <th>Filled by:</th>
+		 <th>Mark as "Collected"</th>   
+       </tr>
+     </thead>
+     <tbody>
+      {% for row in ready %} 	
+	<tr>
+    <td>{{row.id}}</td>
+	<td>{{row.patientid}}</td>
+    <td><a href="{{row.image}}"><img src="{{row.image}}" width="50" height="50"></a></td>
+	<td>{{row.status}}</td>
+	<td>{{row.timestamp|date("d/m/Y")}}<br>{{row.timestamp|date("H:i")}}</td> <!-- https://twig.symfony.com/doc/3.x/filters/date.html -->
+	<td>{{row.completed|date("d/m/Y")}}<br>{{row.completed|date("H:i")}}</td>
+	<td>{{row.assigned}}</td>
+	<td><button id="{{row.id}}" onClick="update(this.id)"> 
+            Update 
+        </button></td>
+    </tr>
+    {% endfor %} 
+     </tbody>
+   </table>
+
+<script>            
+          
+function update(id) { 
+    var selected = id;
+	console.log(selected);
+	$.post( "/update_collected", { selected:selected})
+	.done(function(data){
+		alert(data);
+		location.reload();
+		});
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+<head>
+    <meta charset="utf-8">
+	<title>History </title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/patient.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+</head>
+
+<body> 
+
+<h1>Patient Profile</h1>
+	
+	<div class="container">
+	
+	    <div class="left">
+	    <h3>Personal Details</h3>
+		<h4>Name:</h4>
+	    <p>{{ details.fname }} {{ details.lname }}</p>
+		<h4>Date of Birth:</h4>
+		<p>{{details.dob}}</p>
+		<h4>Sex:</h4>
+		<p>{{details.sex}}</p>
+		<h4>Nationality:</h4>
+		<p>{{details.nationality}}</p>
+		<h4>Address:</h4>
+		<p>{{details.address1}}</p>
+		<p>{{details.address2}}</p>
+		<p>{{details.town}}</p>
+		<p>{{details.county}}</p>
+		<h4>Contact Info:</h4>
+		<p>{{details.phone}}</p>
+		<p>{{details.email}}</p>
+	    </div>
+	
+	    <div class="right">
+		<h3>Medical Information</h3>
+		<h4>Doctor: </h4>
+		<p>{{details.doctor }}</p>
+		<h4>Scheme:</h4>
+		<p>{{details.scheme}}</p>
+		<h4>Scheme ID:</h4>
+		<p>{{details.schemeid}}</p>
+		<h4>Allergies:</h4>
+		<p>{{details.allergies}}</p>
+	    </div>
+	</div>
+			
+</body>
+</html>

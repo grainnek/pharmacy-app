@@ -1,0 +1,41 @@
+
+<head>
+    <meta charset="utf-8">
+	<title>All Prescriptions</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/staff.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+</head>
+
+<body> 
+<div data-role="page" id="one">	
+
+<div role="main" class="ui-content">
+<h1>All Prescriptions</h1>
+
+	{% for row in all %}
+	<h4>Prescription #{{row.id}}</h4>
+	<p>Patient ID: {{row.patientid}}</p>
+	<p><a href="{{row.image}}">Uploaded Prescription</a></p>
+	<p>Submitted on: {{row.timestamp|date("d/m/Y")}} @ {{row.timestamp|date("H:i")}}</p>
+	<p>Status: {{row.status}}
+	{%if row.status == "in progress"%}
+	<p>Assigned to: {{row.assigned}}</p>
+	<p>Updated on: {{row.updated|date("d/m/Y")}} @ {{row.updated|date("H:i")}}</p>
+	{%endif%}
+	{%if row.status == "ready"%}
+	<p>Filled by: {{row.assigned}}</p>
+	<p>Completed on: {{row.completed|date("d/m/Y")}} @ {{row.completed|date("H:i")}}</p>
+	{%endif%}
+	{%if row.status == "collected"%}
+	<p>Released by: {{row.assigned}}</p>
+	<p>Released on: {{row.updated|date("d/m/Y")}} @ {{row.updated|date("H:i")}}</p>
+	{%endif%}
+	<hr><hr>
+	{% endfor %}
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+<head>
+    <meta charset="utf-8">
+	<title>History </title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/patient.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
+</head>
+
+<body> 
+
+<h1>Patient History</h1>
+	
+	<table id="phistory" data-mode="reflow" class="ui-responsive">
+     <thead>
+       <tr>
+         <th>Reference Number</th>
+         <th>Patient ID</th>
+         <th>Prescription</th>
+         <th>Status</th>         
+       </tr>
+     </thead>
+     <tbody>
+      {% for row in history %} 	
+	<tr>
+    <td>{{row.id}}</td>
+	<td>{{row.patientid}}</td>
+    <td><a href="{{row.image}}"><img src="{{row.image}}" width="50" height="50"></a></td>
+	<td>{{row.status}}</td>	
+    </tr>
+    {% endfor %} 
+     </tbody>
+   </table>
+</body>
+</html>
