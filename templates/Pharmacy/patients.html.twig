@@ -1,7 +1,7 @@
 
 <head>
     <meta charset="utf-8">
-	<title>Pending Prescriptions </title>
+	<title>All Patients</title>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/staff.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -10,34 +10,31 @@
 </head>
 
 <body> 
-<div data-role="page" id="one">	
 
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
 <div role="main" class="ui-content">
-<h1>Pending Prescriptions</h1>
+<h1>List of Patients</h1>
 	
 	<table class="center" data-mode="reflow" class="ui-responsive">
      <thead>
        <tr>
-         <th>Reference Number</th>
          <th>Patient ID</th>
-         <th>Prescription</th>
-         <th>Status</th>   
-		 <th>Date</th> 
-		 <th>Time</th>  
-		 <th>Mark as "In Progress"</th>   
+         <th>First Name</th>
+         <th>Last Name</th>
+         <th>DOB</th>   
+		 <th>View Full Profile</th>		   
        </tr>
      </thead>
      <tbody>
-      {% for row in pending %} 	
+      {% for row in all %} 	
 	<tr>
     <td>{{row.id}}</td>
-	<td>{{row.patientid}}</td>
-    <td><a href="{{row.image}}" target="_blank"><img src="{{row.image}}" width="50" height="50"></a></td>
-	<td>{{row.status}}</td>
-	<td>{{row.timestamp|date("d/m/Y")}}</td> <!-- https://twig.symfony.com/doc/3.x/filters/date.html -->
-	<td>{{row.timestamp|date("H:i")}}</td>
-	<td><button id="{{row.id}}" onClick="update(this.id)"> 
-            Update 
+	<td>{{row.fname}}</td>   
+	<td>{{row.lname}}</td>	
+	<td>{{row.dob}}</td>	
+	<td><button id="{{row.id}}" onClick="view(this.id)"> 
+            Full Profile 
         </button></td>
     </tr>
     {% endfor %} 
@@ -45,17 +42,24 @@
    </table>
 </div>
 </div>
+
 <script>            
           
-function update(id) { 
+function view(id) { 
     var selected = id;
 	console.log(selected);
-	$.post( "/update2inprogress", { selected:selected})
+	$.post( "/singlepatient", {selected:selected})
 	.done(function(data){
-		alert(data);
-		location.reload();
-		});
+		$("#patient").html(data);
+		window.location="#two";
+		});	
 	}
-</script>  
+</script>
+<!-- Start of first page: #two -->
+<div data-role="page" id="two">
+<div role="main" class="ui-content">
+<div id="patient"></div>
+</div>
+</div>
 </body>
 </html>

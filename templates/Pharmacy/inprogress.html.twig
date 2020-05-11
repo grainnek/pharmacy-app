@@ -49,7 +49,7 @@
 function update(id) { 
     var selected = id;
 	console.log(selected);
-	$.post( "/update_ready", { selected:selected})
+	$.post( "/update2ready", { selected:selected})
 	.done(function(data){
 		alert(data);
 		location.reload();

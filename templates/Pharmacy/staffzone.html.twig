@@ -11,13 +11,13 @@
 <body> 
  <div data-role="page" id="one">   
  <div role="main" class="ui-content">
-	<h1>Gráinne's Pharmacy - Staff Base</h1>    
+	<h1>Gráinne's Pharmacy - Staff Zone</h1>    
     
 	<button id="pending">Pending Prescriptions</button>
 	<button id="progress">Prescriptions in Progress</button>
-	<button id="collection">Prescriptions Ready for Collection</button>
-	<button id="history">Patient History</button>
+	<button id="collection">Prescriptions Ready for Collection</button>	
 	<button id="all">All Prescriptions</button>
+	<button id="history">Patient Profiles and History</button>
 
 </div>		
 </div>
@@ -37,6 +37,11 @@ $( "#collection" ).click(function() {
 
 $( "#all" ).click(function() {
 	window.location="/all";	
+	
+});
+
+$( "#history" ).click(function() {
+	window.location="/patients";	
 	
 });
 

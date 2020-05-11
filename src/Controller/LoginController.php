@@ -55,7 +55,7 @@ class LoginController extends AbstractController
 				$session->set('lname', $lname);
 				$session->set('email', $email);
 				
-				return new Response("Welcome ".$session->get('email'));
+				return new Response("Welcome ".$fname);
 			}
 			//login has failed
 			else 
@@ -69,13 +69,15 @@ class LoginController extends AbstractController
 			
 		    $staff = $admin->findOneBy(['username' => $username, 'password' => $password]);
 			
+			
 			$id = $staff->getId();
 			$name = $staff->getName();
 			
+			//store the staff members user ID as a session variable called 'staff'
 			$session->set('staff', $id);
 			$session->set('sname', $name);
 			
-			return new Response("Welcome!");
+			return new Response('Welcome '.$name.'!');
 		}
 		
     }

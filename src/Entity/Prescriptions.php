@@ -51,6 +51,11 @@ class Prescriptions
      */
     private $completed;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trail;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,18 @@ class Prescriptions
     public function setCompleted(?\DateTimeInterface $completed): self
     {
         $this->completed = $completed;
+
+        return $this;
+    }
+
+    public function getTrail(): ?string
+    {
+        return $this->trail;
+    }
+
+    public function setTrail(?string $trail): self
+    {
+        $this->trail = $trail;
 
         return $this;
     }

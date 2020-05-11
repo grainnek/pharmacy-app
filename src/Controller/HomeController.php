@@ -44,21 +44,15 @@ class HomeController extends AbstractController
 	* @Route("/staffzone", name="staffzone")
 	*/
 	public function staffzone(SessionInterface $session)
-	{
+	{	//if a staff session variable is found
 		if($session->get('staff')) //if a staff member is logged in they can visit the page
 		{
 		    return $this->render('pharmacy/staffzone.html.twig');
 		}
+		//if not...
 		else
-		{
-			if($session->get('id'))
-			{
-				return $this->redirectToRoute('menu'); //if a staff member is not logged in, but a patient is, the patient will be brought back to their menu
-			}
-			else
-			{
-				return $this->redirectToRoute('pharmacy');
-			}				
+		{	
+			return $this->redirectToRoute('pharmacy');							
 		}
 	}
 

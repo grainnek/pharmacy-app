@@ -65,58 +65,84 @@ class PharmacyController extends AbstractController
     }
 	
 	/**
-     * @Route("/update_inprogress", name="update_inprogress")
+     * @Route("/update2inprogress", name="update2inprogress")
      */
-    public function update_inprogress(SessionInterface $session) //function to update scripts from pending to inprogress
+    public function update2inprogress(SessionInterface $session) //function to update scripts from pending to inprogress
     {
 		$request = Request::createFromGlobals();
 		//get variables
-		$script = $request->request->get('selected', 'none');
+		$selected = $request->request->get('selected', 'none');
 		
 		$entitymanager = $this->getDoctrine()->getManager();	
 		
 		$repository = $entitymanager->getRepository(Prescriptions::class);		
 		
-		$selected = $repository->findOneBy(['id' => $script]);
+		//searches the table based on the script ID
+		$script = $repository->findOneBy(['id' => $selected]);
 		
+		//sets the assigned variable to record what staff member updated the script
 		$assigned = $session->get('sname');
+		
+		//new timestamp variable to show when the script was updated
 		$updated = new \Datetime;
 		
-		$selected->setStatus("in progress");
-		$selected->setUpdated($updated);
-		$selected->setAssigned($assigned);
+		//formats datetime object into string for easy reading
+		$time = $updated->format('H:i');
+		$date = $updated->format('d/m/Y');
+		
+		//retrieves the current trail html from the database and appends an update to it.
+		$trail = $script->getTrail();
+		$trail .= '<p>Marked "In Progress" by '.$assigned.' on '.$date.' @ '.$time.'.</p>';
+		
+		$script->setStatus("in progress");
+		$script->setUpdated($updated);
+		$script->setAssigned($assigned);
+		$script->setTrail($trail);
 		
 		$entitymanager->flush();
 		
-		return new Response('The prescription #'.$script.' has been marked as "In Progress"');
+		return new Response('The prescription #'.$selected.' has been marked as "In Progress"');
     }
 	
 	/**
-     * @Route("/update_ready", name="update_ready")
+     * @Route("/update2ready", name="update2ready")
      */
-    public function update_ready(SessionInterface $session, MailerInterface $mailer) //function to update scripts from pending to inprogress
+    public function update2ready(SessionInterface $session, MailerInterface $mailer) //function to update scripts from pending to inprogress
     {
 		$request = Request::createFromGlobals();
 		//get variables
-		$script = $request->request->get('selected', 'none');
+		$selected = $request->request->get('selected', 'none');
 		
 		$entitymanager = $this->getDoctrine()->getManager();	
 		
 		$repository = $entitymanager->getRepository(Prescriptions::class);		
 		
-		$selected = $repository->findOneBy(['id' => $script]);
+		$script = $repository->findOneBy(['id' => $selected]);
 		
+		
+		//sets the assigned variable to record what staff member updated the script
 		$assigned = $session->get('sname');
+		
+		//new timestamp variable to show when the script was updated
 		$updated = new \Datetime;
 		
-		//get the patient ID of the selected script
-		$pid = $selected->getPatientId();
+		//formats datetime object into string for easy reading
+		$time = $updated->format('H:i');
+		$date = $updated->format('d/m/Y');
 		
-		$selected->setStatus("ready");
-		$selected->setAssigned($assigned);
-		$selected->setCompleted($updated);		
+		//retrieves the current trail html from the database and appends an update to it.
+		$trail = $script->getTrail();
+		$trail .= '<p>Marked "Ready" by '.$assigned.' on '.$date.' @ '.$time.'.</p>';		
+		
+		$script->setStatus("ready");
+		$script->setAssigned($assigned);
+		$script->setCompleted($updated);	
+		$script->setTrail($trail);		
 		
 		$entitymanager->flush();
+		
+		//get the patient ID of the selected script 
+		$pid = $script->getPatientId();
 		
 		//query patient details table now
 		$repository = $entitymanager->getRepository(PatientDetails::class);	
@@ -128,41 +154,147 @@ class PharmacyController extends AbstractController
 		$email = (new Email())
             ->from('info@grainnespharmacy.com')
             ->to($address)            
-            ->subject('Prescription #'.$script.' is ready to collect')
-            ->text('Dear '.$name.'. '.$assigned.' has finished dispensing prescription #'.$script.' and it is now ready for collection.')
-            ->html('<p>Dear '.$name.'</p><p>'.$assigned.' has finished dispensing prescription #'.$script.' and it is now ready for collection.');
+            ->subject('Prescription #'.$selected.' is ready to collect')
+            ->text('Dear '.$name.'. '.$assigned.' has finished dispensing prescription #'.$selected.' and it is now ready for collection.')
+            ->html('<p>Dear '.$name.'</p><p>'.$assigned.' has finished dispensing prescription #'.$selected.' and it is now ready for collection.');
 
 		$mailer->send($email);
 		
 		
-		return new Response('The prescription #'.$script.' has been marked as "Ready for collection"');
+		return new Response('The prescription #'.$selected.' has been marked as "Ready for collection"');
     }
 	
 		/**
-     * @Route("/update_collected", name="update_collected")
+     * @Route("/update2collected", name="update2collected")
      */
-    public function update_collected(SessionInterface $session) //function to update scripts from pending to inprogress
+    public function update2collected(SessionInterface $session) //function to update scripts from pending to inprogress
     {
 		$request = Request::createFromGlobals();
 		//get variables
-		$script = $request->request->get('selected', 'none');
+		$selected = $request->request->get('selected', 'none');
 		
 		$entitymanager = $this->getDoctrine()->getManager();	
 		
 		$repository = $entitymanager->getRepository(Prescriptions::class);		
 		
-		$selected = $repository->findOneBy(['id' => $script]);
+		$script = $repository->findOneBy(['id' => $selected]);
 		
+		//get the patient ID of the selected script 
+		$pid = $script->getPatientId();
+		
+		//query patient details table now
+		$repository = $entitymanager->getRepository(PatientDetails::class);	
+		$patient = $repository->findOneBy(['id' => $pid]);
+		
+		//get the patients full name
+		$name = $patient->getFname();		
+		
+		//sets the assigned variable to record what staff member updated the script
 		$assigned = $session->get('sname');
+		
+		//new timestamp variable to show when the script was updated
 		$updated = new \Datetime;
 		
-		$selected->setStatus("collected");
-		$selected->setAssigned($assigned);
-		$selected->setUpdated($updated);		
+		//formats datetime object into string for easy reading
+		$time = $updated->format('H:i');
+		$date = $updated->format('d/m/Y');
+		
+		//retrieves the current trail html from the database and appends an update to it.
+		$trail = $script->getTrail();
+		$trail .= '<p>Given to '.$name.' on '.$date.' @ '.$time.' by '.$assigned.'.</p>';
+		
+		$script->setStatus("collected");
+		$script->setAssigned($assigned);
+		$script->setUpdated($updated);
+		$script->setTrail($trail);
+		
 		
 		$entitymanager->flush();
 		
-		return new Response('The prescription #'.$script.' has been marked as "Collected by customer"');
+		return new Response('The prescription #'.$selected.' has been marked as "Collected by customer"');
+    }
+	
+	/**
+     * @Route("/patients", name="patients")
+     */
+    public function patients() 
+    {		
+		$patients = $this->getDoctrine()->getRepository(PatientDetails::class);		
+		
+		$all = $patients->findAll();		
+		
+		return $this->render('pharmacy/patients.html.twig', array('all' => $all));
+    }
+	
+	/**
+     * @Route("/singlepatient", name="singlepatient")
+     */
+    public function singlepatient(SessionInterface $session) //function to update scripts from pending to inprogress
+    {
+		$request = Request::createFromGlobals();
+		//get variables
+		$id = $request->request->get('selected', 'none');
+		
+		//prepare the patient details table
+		$repository = $this->getDoctrine()->getRepository(PatientDetails::class);	
+		
+		//searches the table based on the patient ID
+		$patient = $repository->findOneBy(['id' => $id]);
+		
+		//create variables for patient details
+		$name = $patient->getFname().' '.$patient->getLname();
+		$dob = $patient->getDob();
+		$address1 = $patient->getAddress1();
+		$address2 = $patient->getAddress2();
+		$town = $patient->getTown();
+		$county = $patient->getCounty();
+		$sex = $patient->getSex();
+		$nationality = $patient->getNationality();
+		$doctor = $patient->getDoctor();
+		$scheme = $patient->getScheme();
+		$schemeid = $patient->getSchemeid();
+		$allergies = $patient->getAllergies();
+		
+		$html = '<a href="#one" class="ui-btn ui-shadow ui-corner-all">Back to All Patients</a>';
+		$html .= '<h1>Profile of '.$name.'</h1>';
+		$html .= '<div class="container">';	
+		$html .= '<div class="left">';
+		$html .= '<h4>Date of birth:</h4><p>'.$dob.'</p>';
+		$html .= '<h4>Address:</h4><p>'.$address1.'</p><p>'.$address2.'</p><p>'.$town.'</p><p>'.$county.'</p>';
+		$html .= '<h4>Sex:</h4><p>'.$sex.'</p>';
+		$html .= '<h4>Nationality:</h4><p>'.$nationality.'</p>';
+		$html .= '</div>';
+		$html .= '<div class="right">';
+		$html .= '<h4>Doctor:</h4><p>'.$doctor.'</p>';
+		$html .= '<h4>Scheme:</h4><p>'.$scheme.'</p>';
+		$html .= '<h4>Scheme ID:</h4><p>'.$schemeid.'</p>';
+		$html .= '<h4>Allergies:</h4><p>'.$allergies.'</p>';
+		$html .= '</div></div>';		
+		
+		//prepare the prescriptions table
+		$repository = $this->getDoctrine()->getRepository(Prescriptions::class);	
+		
+		//searches the table where patient_id = $id
+		$script = $repository->findBy(['patient_id' => $id]);
+		
+		$html .= '<h3>Prescription History</h3>';
+		$html .= '<table class="center" data-mode="reflow" class="ui-responsive">';
+		$html .= '<thead><tr><th>Reference Number</th><th>Patient ID</th><th>Prescription</th><th>Status</th><th>Audit Trail</th></tr></thead><tbody>';
+		
+		foreach($script as $row)
+		{
+			$html .= '<tr>';
+			$html .= '<td>'.$row->getId().'</td>';
+			$html .= '<td>'.$row->getPatientId().'</td>';
+			$html .= '<td><a href="'.$row->getImage().'" target="_blank"><img src="'.$row->getImage().'" width="50" height="50"></td>';
+			$html .= '<td>'.$row->getStatus().'</td>';
+			$html .= '<td>'.$row->getTrail().'</td>';
+			$html .= '</tr>';
+		}
+		
+		$html .= '</tbody></table>';		
+		
+		return new Response($html);
     }
 	
     	/**

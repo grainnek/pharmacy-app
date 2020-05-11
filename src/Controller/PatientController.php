@@ -26,6 +26,7 @@ class PatientController extends AbstractController
 		
 			$history = $patient->findBy(['patient_id' => $id]);
 			
+			//Render history page and pass the history array to it
 			return $this->render('patient/history.html.twig', array('history' => $history));
 		}
 		else
